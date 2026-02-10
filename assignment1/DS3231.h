@@ -13,7 +13,11 @@ namespace een1071 {
 class DS3231:public I2CDevice{
 
    // Your C++ code here
-
+   public:
+      DS3231(unsigned int bus, unsigned int device);
+      unsigned char* readDevice(unsigned int address);
+      float getTemperature();
+      virtual ~DS3231();
 };
 
 } /* namespace een1071 */
