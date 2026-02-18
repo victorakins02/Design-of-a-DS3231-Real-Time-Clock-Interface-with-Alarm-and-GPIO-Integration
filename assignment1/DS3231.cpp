@@ -45,20 +45,50 @@ namespace een1071 {
 	return temp;
    }
 
-   // Getter function for seconds
-   unsigned int DS3231::getSeconds(){
-	unsigned char* hex_sec = this->readRegisters(1, 0x00);
+   unsigned int DS3231::getHours(){
+	unsigned char* bcd_hour = this->readRegisters(1, 0x02);
 
-	if (hex_sec == NULL) {
+	if (bcd_hour == NULL){
 	   return 0;
 	}
 
-	unsigned int bin_sec = bcdToDec(hex_sec[0]);
+ 	unsigned int bin_hour = bcdToDec(bcd_hour[0] & 0x3F);
 
-	delete[] hex_sec;
+	delete[] bcd_hour;
+
+	return bin_hour;
+   }
+
+   unsigned int DS3231::getMinutes(){
+	unsigned char* bcd_min = this->readRegisters(1, 0x01);
+
+	if (bcd_min == NULL){
+	   return 0;
+	}
+
+	unsigned int bin_min = bcdToDec(bcd_min[0]);
+
+	delete[] bcd_min;
+
+	return bin_min;
+   }
+
+   // Getter function for seconds
+   unsigned int DS3231::getSeconds(){
+	unsigned char* bcd_sec = this->readRegisters(1, 0x00);
+
+	if (bcd_sec == NULL) {
+	   return 0;
+	}
+
+	unsigned int bin_sec = bcdToDec(bcd_sec[0]);
+
+	delete[] bcd_sec;
 
 	return bin_sec;
    }
+
+   
 
    // Destructor
    DS3231::~DS3231(){}

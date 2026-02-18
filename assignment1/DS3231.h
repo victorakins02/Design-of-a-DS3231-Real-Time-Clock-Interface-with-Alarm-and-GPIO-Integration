@@ -19,6 +19,8 @@ public:
 	DS3231(unsigned int bus, unsigned int device);
 	unsigned char* readDevice(unsigned int address);
 	float getTemperature();
+	unsigned int getHours();
+	unsigned int getMinutes();
 	unsigned int getSeconds();
 	virtual ~DS3231();
 };

@@ -19,9 +19,11 @@ int main() {
     // Testing getter functions
     while (true) {
     	float temp = rtc.getTemperature();
+	unsigned int hours = rtc.getHours();
+        unsigned int mins = rtc.getMinutes();
     	unsigned int seconds = rtc.getSeconds();
 
-	cout << "Time: " << seconds << endl;
+	cout << "Time: " << hours << ":" << mins << ":" << seconds << endl;
 	cout << "Temperature: " << temp << endl;
 
 	sleep(1);
