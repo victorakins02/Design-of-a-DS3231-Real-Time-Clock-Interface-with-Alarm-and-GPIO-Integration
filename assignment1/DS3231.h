@@ -40,6 +40,12 @@ public:
 	void setHours(int hour);
 	void setTime(int hour , int minutes, int seconds);
 
+	// Set Date functions
+	void setDay(int Today);
+	void setDateOfMonth(int date);
+	void setMonth(int month);
+	void setYear(int Year);
+	void setDate(int day, int date, int month, int year);
 
 
 	virtual ~DS3231();

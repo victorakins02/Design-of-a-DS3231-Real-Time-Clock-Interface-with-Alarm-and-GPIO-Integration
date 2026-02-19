@@ -17,6 +17,7 @@ int main() {
     // Your application code here
     een1071::DS3231 rtc(1, 0x68);
     rtc.setTime(11, 30, 0);
+    rtc.setDate(4, 19, 2, 26);
     // Testing getter functions
     while (true) {
     	float temp = rtc.getTemperature();

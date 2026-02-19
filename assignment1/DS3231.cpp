@@ -221,6 +221,34 @@ namespace een1071 {
 	this->setSeconds(seconds);
    }
 
+   // Set Date Functions
+   void DS3231::setDay(int day){
+	this->writeRegister(0x03, day);
+   }
+
+   void DS3231::setDateOfMonth(int date){
+	this->writeRegister(0x04, date);
+   }
+
+   void DS3231::setMonth(int month){
+	this->writeRegister(0x05, month);
+   }
+
+   void DS3231::setYear(int year){
+	this->writeRegister(0x06, year);
+   }
+
+   void DS3231::setDate(int day, int date, int month, int year){
+	unsigned char bcd_Day   = DecTobcd(day);
+	unsigned char bcd_Date = DecTobcd(date);
+        unsigned char bcd_Month = DecTobcd(month);
+        unsigned char bcd_Year  = DecTobcd(year);
+
+	this->setDay(bcd_Day);
+	this->setDateOfMonth(bcd_Date);
+	this->setMonth(bcd_Month);
+	this->setYear(bcd_Year);
+   }
    // Destructor
    DS3231::~DS3231(){}
 
