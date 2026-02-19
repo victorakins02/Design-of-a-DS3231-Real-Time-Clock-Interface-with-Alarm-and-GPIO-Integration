@@ -14,20 +14,34 @@ class DS3231:public I2CDevice{
 // Your C++ code here
 private:
 	int bcdToDec(unsigned char bcd);
-
+	unsigned char DecTobcd (int decimal);
 public:
 	DS3231(unsigned int bus, unsigned int device);
 	unsigned char* readDevice(unsigned int address);
+	// Get Temperature Functions
 	float getTemperature();
+
+	// Get Time Functions
 	unsigned int getHours();
 	unsigned int getMinutes();
 	unsigned int getSeconds();
 	void getTime();
+
+	// Get Date Functions
 	unsigned int getDay();
 	unsigned int getDate();
 	unsigned int getMonth();
 	unsigned int getYear();
 	void getToday();
+
+	// Set Time functions
+	void setSeconds(int seconds);
+	void setMinutes(int minutes);
+	void setHours(int hour);
+	void setTime(int hour , int minutes, int seconds);
+
+
+
 	virtual ~DS3231();
 };
 

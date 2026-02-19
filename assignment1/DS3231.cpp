@@ -22,9 +22,14 @@ namespace een1071 {
 	return this->readRegisters(2, address);
    }
 
-   // Convert from BCD to Binary (mainly for seconds for now)
+   // Convert from BCD to Decimal (mainly for getting time)
    int DS3231::bcdToDec(unsigned char bcd) {
     return ((bcd >> 4) * 10) + (bcd & 0x0F);
+   }
+
+   // Convert from Decimal to BCD (mainly used to set time)
+   unsigned char DS3231::DecTobcd(int val) {
+    return (unsigned char)( (val / 10 << 4) | (val % 10) );
    }
 
    // Getter Function for Temperature
@@ -188,6 +193,32 @@ namespace een1071 {
 
 	cout << "Date: " << date << "/" << month << "/" << year << endl;
 
+   }
+
+   // Set time functions
+   void DS3231::setSeconds(int seconds){
+	unsigned char bcd_secs = DecTobcd(seconds);
+
+	this->writeRegister(0x00, bcd_secs);
+   }
+
+   void DS3231::setMinutes(int minutes){
+	unsigned char bcd_mins = DecTobcd(minutes);
+
+	this->writeRegister(0x01, bcd_mins);
+   }
+
+
+   void DS3231::setHours(int hours) {
+	unsigned char bcd_hrs = DecTobcd(hours);
+
+	this->writeRegister(0x02, bcd_hrs);
+   }
+
+   void DS3231::setTime(int hours, int minutes, int seconds){
+	this->setHours(hours);
+	this->setMinutes(minutes);
+	this->setSeconds(seconds);
    }
 
    // Destructor
