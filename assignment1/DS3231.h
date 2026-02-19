@@ -47,6 +47,9 @@ public:
 	void setYear(int Year);
 	void setDate(int day, int date, int month, int year);
 
+	// Set Alarms
+	void setAlarm1(int hours, int minutes);
+	void setAlarm2(int hours, int minutes);
 
 	virtual ~DS3231();
 };

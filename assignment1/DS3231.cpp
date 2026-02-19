@@ -249,6 +249,14 @@ namespace een1071 {
 	this->setMonth(bcd_Month);
 	this->setYear(bcd_Year);
    }
+
+   void DS3231::setAlarm1(int hour, int minutes){
+	unsigned char bcd_hour = DecTobcd(hour);
+	unsigned char bcd_minutes = DecTobcd(minutes);
+
+	this->writeRegister(0x08, bcd_minutes);
+	this->writeRegister(0x09, bcd_hour);
+   }
    // Destructor
    DS3231::~DS3231(){}
 
