@@ -20,9 +20,11 @@ int main() {
     while (true) {
     	float temp = rtc.getTemperature();
 
+	rtc.getToday();
 	unsigned int day = rtc.getDay();
 	rtc.getTime();
 	cout << "Temperature: " << temp << endl;
+	cout << endl;
 
 	sleep(1);
 

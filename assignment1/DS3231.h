@@ -24,6 +24,10 @@ public:
 	unsigned int getSeconds();
 	void getTime();
 	unsigned int getDay();
+	unsigned int getDate();
+	unsigned int getMonth();
+	unsigned int getYear();
+	void getToday();
 	virtual ~DS3231();
 };
 

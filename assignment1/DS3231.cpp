@@ -133,8 +133,62 @@ namespace een1071 {
 		break;
 	}
 
+	delete[] bcd_day;
+
 	return bin_day;
   }
+
+   unsigned int DS3231::getDate(){
+	unsigned char* bcd_date = this->readRegisters(1, 0x04);
+
+	if (bcd_date == NULL){
+	   return 0;
+	}
+
+	unsigned int bin_date = bcdToDec(bcd_date[0]);
+
+	delete[] bcd_date;
+
+	return bin_date;
+
+   }
+
+  unsigned int DS3231::getMonth(){
+	unsigned char* bcd_month = this->readRegisters(1, 0x05);
+
+	if (bcd_month == NULL) {
+	   return 0;
+	}
+
+	unsigned int bin_month = bcdToDec(bcd_month[0]);
+
+	delete[] bcd_month;
+
+	return bin_month;
+   }
+
+   unsigned int DS3231::getYear(){
+	unsigned char* bcd_year = this->readRegisters(1, 0x06);
+
+	if (bcd_year == NULL) {
+	   return 0;
+	}
+
+	unsigned int bin_year = bcdToDec(bcd_year[0]);
+
+	delete[] bcd_year;
+
+	return bin_year;
+  }
+
+   void DS3231::getToday() {
+	unsigned int date = this->getDate();
+	unsigned int month = this->getMonth();
+	unsigned int year = this->getYear();
+
+	cout << "Date: " << date << "/" << month << "/" << year << endl;
+
+   }
 
    // Destructor
    DS3231::~DS3231(){}
