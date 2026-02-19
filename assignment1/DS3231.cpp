@@ -97,6 +97,45 @@ namespace een1071 {
 	cout << "Time: " << hours << ":" << mins << ":" << seconds << endl;
    }
 
+   unsigned int DS3231::getDay(){
+	unsigned char* bcd_day = this->readRegisters(1, 0x03);
+
+	if (bcd_day == NULL) {
+	   return 0;
+	}
+
+	unsigned int bin_day = bcd_day[0];
+
+	switch (bin_day) {
+	   case 1:
+		cout << "Monday" << endl;
+		break;
+	   case 2:
+		cout << "Tuesday" << endl;
+		break;
+	   case 3:
+                cout << "Wednesday" << endl;
+                break;
+	   case 4:
+		cout << "Thursday" << endl;
+		break;
+	   case 5:
+		cout << "Friday" << endl;
+		break;
+	   case 6:
+		cout << "Saturday" << endl;
+		break;
+	   case 7:
+		cout << "Sunday" << endl;
+		break;
+	   default:
+		cout << "Invalid Day" << endl;
+		break;
+	}
+
+	return bin_day;
+  }
+
    // Destructor
    DS3231::~DS3231(){}
 
