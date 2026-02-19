@@ -22,6 +22,7 @@ public:
 	unsigned int getHours();
 	unsigned int getMinutes();
 	unsigned int getSeconds();
+	void getTime();
 	virtual ~DS3231();
 };
 

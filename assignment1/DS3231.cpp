@@ -44,7 +44,7 @@ namespace een1071 {
 
 	return temp;
    }
-
+   // Getter function for Hours
    unsigned int DS3231::getHours(){
 	unsigned char* bcd_hour = this->readRegisters(1, 0x02);
 
@@ -59,6 +59,7 @@ namespace een1071 {
 	return bin_hour;
    }
 
+   // Getter Function to get minutes
    unsigned int DS3231::getMinutes(){
 	unsigned char* bcd_min = this->readRegisters(1, 0x01);
 
@@ -88,7 +89,13 @@ namespace een1071 {
 	return bin_sec;
    }
 
-   
+   void DS3231::getTime(){
+	unsigned int hours = this->getHours();
+        unsigned int mins = this->getMinutes();
+    	unsigned int seconds = this->getSeconds();
+
+	cout << "Time: " << hours << ":" << mins << ":" << seconds << endl;
+   }
 
    // Destructor
    DS3231::~DS3231(){}
