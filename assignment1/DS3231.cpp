@@ -260,6 +260,15 @@ namespace een1071 {
 	this->writeRegister(0x0A, 0x80);
    }
 
+    void DS3231::setAlarm2(int hour, int minutes){
+        unsigned char bcd_hour = DecTobcd(hour);
+        unsigned char bcd_minutes = DecTobcd(minutes);
+
+        this->writeRegister(0x0B, bcd_minutes);
+        this->writeRegister(0x0C, bcd_hour);
+        this->writeRegister(0x0D, 0x80);
+   }
+
    void DS3231::activateAlarm(bool alarm1, bool alarm2){
 	unsigned char control = 0x04;
 	if (alarm1) {
@@ -289,6 +298,24 @@ namespace een1071 {
 	delete[] status;
 
 	return isTriggered;
+   }
+
+    bool DS3231::alarm2Triggered(){
+        unsigned char* status = this->readRegisters(1, 0x0F);
+
+        if (status == NULL) {
+           return false;
+        }
+
+        bool isTriggered = (status[0] & 0x02);
+
+        if (isTriggered) {
+            this->writeRegister(0x0F, status[0] & ~0x02);
+        }
+
+        delete[] status;
+
+        return isTriggered;
    }
    // Destructor
    DS3231::~DS3231(){}

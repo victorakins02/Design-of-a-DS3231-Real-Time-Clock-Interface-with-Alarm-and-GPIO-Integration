@@ -52,6 +52,7 @@ public:
 	void setAlarm2(int hours, int minutes);
 	void activateAlarm(bool alarm1, bool alarm2);
 	bool alarm1Triggered();
+	bool alarm2Triggered();
 	virtual ~DS3231();
 };
 
