@@ -223,39 +223,72 @@ namespace een1071 {
 
    // Set Date Functions
    void DS3231::setDay(int day){
-	this->writeRegister(0x03, day);
+	unsigned char bcd_day = DecTobcd(day);
+	this->writeRegister(0x03, bcd_day);
    }
 
    void DS3231::setDateOfMonth(int date){
-	this->writeRegister(0x04, date);
+	unsigned char bcd_date = DecTobcd(date);
+	this->writeRegister(0x04, bcd_date);
    }
 
    void DS3231::setMonth(int month){
-	this->writeRegister(0x05, month);
+	unsigned char bcd_month = DecTobcd(month);
+	this->writeRegister(0x05, bcd_month);
    }
 
    void DS3231::setYear(int year){
-	this->writeRegister(0x06, year);
+	unsigned char bcd_year = DecTobcd(year);
+	this->writeRegister(0x06, bcd_year);
    }
 
    void DS3231::setDate(int day, int date, int month, int year){
-	unsigned char bcd_Day   = DecTobcd(day);
-	unsigned char bcd_Date = DecTobcd(date);
-        unsigned char bcd_Month = DecTobcd(month);
-        unsigned char bcd_Year  = DecTobcd(year);
-
-	this->setDay(bcd_Day);
-	this->setDateOfMonth(bcd_Date);
-	this->setMonth(bcd_Month);
-	this->setYear(bcd_Year);
+	this->setDay(day);
+	this->setDateOfMonth(date);
+	this->setMonth(month);
+	this->setYear(year);
    }
 
-   void DS3231::setAlarm1(int hour, int minutes){
+   void DS3231::setAlarm1(int hour, int minutes, int seconds){
 	unsigned char bcd_hour = DecTobcd(hour);
 	unsigned char bcd_minutes = DecTobcd(minutes);
+	unsigned char bcd_seconds = DecTobcd(seconds);
 
+	this->writeRegister(0x07, bcd_seconds);
 	this->writeRegister(0x08, bcd_minutes);
 	this->writeRegister(0x09, bcd_hour);
+	this->writeRegister(0x0A, 0x80);
+   }
+
+   void DS3231::activateAlarm(bool alarm1, bool alarm2){
+	unsigned char control = 0x04;
+	if (alarm1) {
+	   control |= 0x01;
+	}
+
+	if (alarm2) {
+	   control |= 0x02;
+	}
+
+	this->writeRegister(0x0E, control);
+   }
+
+   bool DS3231::alarm1Triggered(){
+	unsigned char* status = this->readRegisters(1, 0x0F);
+
+	if (status == NULL) {
+	   return false;
+	}
+
+	bool isTriggered = (status[0] & 0x01);
+
+	if (isTriggered) {
+	    this->writeRegister(0x0F, status[0] & ~0x01);
+	}
+
+	delete[] status;
+
+	return isTriggered;
    }
    // Destructor
    DS3231::~DS3231(){}

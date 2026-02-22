@@ -48,9 +48,10 @@ public:
 	void setDate(int day, int date, int month, int year);
 
 	// Set Alarms
-	void setAlarm1(int hours, int minutes);
+	void setAlarm1(int hours, int minutes, int seconds);
 	void setAlarm2(int hours, int minutes);
-
+	void activateAlarm(bool alarm1, bool alarm2);
+	bool alarm1Triggered();
 	virtual ~DS3231();
 };
 

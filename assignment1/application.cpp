@@ -18,6 +18,8 @@ int main() {
     een1071::DS3231 rtc(1, 0x68);
     rtc.setTime(11, 30, 0);
     rtc.setDate(4, 19, 2, 26);
+    rtc.setAlarm1(11, 31, 0);
+    rtc.activateAlarm(true, false);
     // Testing getter functions
     while (true) {
     	float temp = rtc.getTemperature();
@@ -27,7 +29,9 @@ int main() {
 	rtc.getTime();
 	cout << "Temperature: " << temp << endl;
 	cout << endl;
-
+	if (rtc.alarm1Triggered()){
+	   cout << "Alarm went off!" << endl;
+	}
 	sleep(1);
 
 	}
