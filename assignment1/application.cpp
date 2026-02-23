@@ -8,6 +8,7 @@
 #include "DS3231.h"
 #include <unistd.h>
 #include <pthread.h>
+#include "LED.h"
 
 using namespace std;
 using namespace een1071;
@@ -15,6 +16,8 @@ using namespace een1071;
 int main() {
 
     // Your application code here
+    LED myLED(17);
+
     een1071::DS3231 rtc(1, 0x68);
     rtc.setTime(11, 30, 0);
     rtc.setDate(4, 19, 2, 26);
@@ -32,6 +35,9 @@ int main() {
 	cout << endl;
 	if (rtc.alarm1Triggered() || rtc.alarm2Triggered()){
 	   cout << "Alarm went off!" << endl;
+	   myLED.turnOn();
+           sleep(5);          // Keep it on for 5 seconds
+    	   myLED.turnOff();
 	}
 	sleep(1);
 
