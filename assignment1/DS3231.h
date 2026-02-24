@@ -53,6 +53,18 @@ public:
 	void activateAlarm(bool alarm1, bool alarm2);
 	bool alarm1Triggered();
 	bool alarm2Triggered();
+
+	// Square Wave
+	enum SQW_FREQ {
+           FREQ_1HZ    = 0,
+           FREQ_1024HZ = 1,
+           FREQ_4096HZ = 2,
+           FREQ_8192HZ = 3
+	};
+
+	void activateSquareWave(bool enable, SQW_FREQ freq);
+
+	// Destructor
 	virtual ~DS3231();
 };
 

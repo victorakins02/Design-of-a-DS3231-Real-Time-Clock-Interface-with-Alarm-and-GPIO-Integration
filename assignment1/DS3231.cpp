@@ -317,6 +317,23 @@ namespace een1071 {
 
         return isTriggered;
    }
+
+   // Sqaure Wave
+   void DS3231::activateSquareWave(bool enable, SQW_FREQ freq){
+   	unsigned char control = readRegister(0x0E);
+
+    	control &= 0xE3;
+
+    	if (enable) {
+           control |= (freq << 3);
+    	}
+	else {
+           control |= 0x04;
+    	}
+
+    	writeRegister(0x0E, control);
+   }
+
    // Destructor
    DS3231::~DS3231(){}
 
