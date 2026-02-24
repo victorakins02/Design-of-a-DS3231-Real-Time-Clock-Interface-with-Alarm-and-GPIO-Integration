@@ -1,5 +1,6 @@
 #include "LED.h"
 #include <iostream>
+#include <unistd.h>
 
 LED::LED(int gpioNumber) {
     this->pin = gpioNumber;
@@ -25,6 +26,18 @@ LED::LED(int gpioNumber) {
 void LED::turnOn() {
    if (request) {
 	gpiod_line_request_set_value(request, pin, GPIOD_LINE_VALUE_ACTIVE);
+   }
+}
+
+void LED::flashOn(){
+   if (request) {
+	gpiod_line_request_set_value(request, pin, GPIOD_LINE_VALUE_ACTIVE);
+
+        usleep(200000);
+
+        gpiod_line_request_set_value(request, pin, GPIOD_LINE_VALUE_INACTIVE);
+
+        usleep(200000);
    }
 }
 

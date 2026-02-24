@@ -53,6 +53,8 @@ public:
 	void activateAlarm(bool alarm1, bool alarm2);
 	bool alarm1Triggered();
 	bool alarm2Triggered();
+	void clearAlarm1();
+	void clearAlarm2();
 
 	// Square Wave
 	enum SQW_FREQ {

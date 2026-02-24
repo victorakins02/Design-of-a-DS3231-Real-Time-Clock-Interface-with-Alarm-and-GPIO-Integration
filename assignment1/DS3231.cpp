@@ -318,6 +318,14 @@ namespace een1071 {
         return isTriggered;
    }
 
+   void DS3231::clearAlarm1(){
+	unsigned char status = this->readRegister(0x0F);
+
+	status &= 0xFE;
+
+	this->writeRegister(0x0F, status);
+   }
+
    // Sqaure Wave
    void DS3231::activateSquareWave(bool enable, SQW_FREQ freq){
    	unsigned char control = readRegister(0x0E);

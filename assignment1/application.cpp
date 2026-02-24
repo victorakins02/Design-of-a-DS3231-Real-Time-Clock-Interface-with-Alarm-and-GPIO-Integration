@@ -21,9 +21,9 @@ int main() {
     een1071::DS3231 rtc(1, 0x68);
     rtc.setTime(11, 30, 0);
     rtc.setDate(4, 19, 2, 26);
-    rtc.setAlarm1(11, 31, 05);
-    rtc.setAlarm2(11, 31);
-    rtc.activateAlarm(true, true);
+    rtc.setAlarm1(11, 30, 10);
+    myLED.turnOn();
+    rtc.activateAlarm(true, false);
     // Testing getter functions
     while (true) {
     	float temp = rtc.getTemperature();
@@ -35,8 +35,9 @@ int main() {
 	cout << endl;
 	if (rtc.alarm1Triggered() || rtc.alarm2Triggered()){
 	   cout << "Alarm went off!" << endl;
-	   myLED.turnOn();
-           sleep(5);          // Keep it on for 5 seconds
+	   for(int i = 0; i < 5; i++){
+	      myLED.flashOn();
+	   }
     	   myLED.turnOff();
 	}
 	sleep(1);

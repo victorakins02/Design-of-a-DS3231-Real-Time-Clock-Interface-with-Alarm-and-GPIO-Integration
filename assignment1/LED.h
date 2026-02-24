@@ -12,6 +12,7 @@ private:
 public:
     LED(int gpioNumber);
     void turnOn();
+    void flashOn();
     void turnOff();
     ~LED();
 };
