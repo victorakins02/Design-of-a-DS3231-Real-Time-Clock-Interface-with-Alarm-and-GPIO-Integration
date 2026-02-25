@@ -65,7 +65,7 @@ int main() {
         
         myLED.turnOff();
         cout << "Snoozed! New alarm set for: " << h << ":" << m << ":" << s << endl;
-
+        myLED.turnOn();
         // 3. Wait for user to let go of the button
         while (snoozeButton.isPressed()) { 
             usleep(10000); 
