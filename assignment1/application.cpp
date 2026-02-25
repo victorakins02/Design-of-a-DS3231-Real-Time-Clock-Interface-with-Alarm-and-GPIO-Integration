@@ -34,17 +34,15 @@ int main() {
    while(true) {
     if (rtc.alarm1Triggered()) {
         cout << "ALARM TRIGGERED!" << endl;
-        
-        // Loop here until the button is pressed
+
         while (!snoozeButton.isPressed()) {
-            myLED.flashOn(); // Keep flashing while waiting for the user
-            usleep(100000);  // Flash speed
+            myLED.flashOn();
+            usleep(100000);
         }
 
-        // --- Everything below happens ONLY after the button is pressed ---
         cout << "Snooze button detected!" << endl;
         
-        // 1. Calculate new time (Your rollover logic here)
+        // 1. Calculate new time 
         int h = rtc.getHours();
 	int m = rtc.getMinutes();
 	int s = rtc.getSeconds();
@@ -71,7 +69,7 @@ int main() {
             usleep(10000); 
         } 
     }
-    usleep(100000); // Main loop heartbeat
+    usleep(100000);
 }
 
     cout << "DS3231 RTC Code for Assignment 1 EEN1071" << endl;
