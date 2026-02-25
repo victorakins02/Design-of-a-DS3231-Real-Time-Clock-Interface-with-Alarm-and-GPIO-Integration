@@ -32,21 +32,24 @@ int main() {
     myLED.turnOn(); // LED On to show alarm on
 
    while(true) {
-      if (rtc.alarm1Triggered()){
-         cout << "ALARM TRIGGERED!" << endl;
-         for(int i = 0; i < 3; i++) {
-                myLED.flashOn();
-            }
-      if (snoozeButton.isPressed()) {
-            cout << "Snooze button detected!" << endl;
+    if (rtc.alarm1Triggered()) {
+        cout << "ALARM TRIGGERED!" << endl;
+        
+        // Loop here until the button is pressed
+        while (!snoozeButton.isPressed()) {
+            myLED.flashOn(); // Keep flashing while waiting for the user
+            usleep(100000);  // Flash speed
+        }
 
-            // Get current time
-            int h = rtc.getHours();
-            int m = rtc.getMinutes();
-            int s = rtc.getSeconds();
+        // --- Everything below happens ONLY after the button is pressed ---
+        cout << "Snooze button detected!" << endl;
+        
+        // 1. Calculate new time (Your rollover logic here)
+        int h = rtc.getHours();
+	int m = rtc.getMinutes();
+	int s = rtc.getSeconds();
 
-            // Add 10 seconds with rollover logic
-            s += 10;
+	s += 10;
             if (s >= 60) {
                 s -= 60;
                 m += 1;
@@ -56,21 +59,20 @@ int main() {
                 h = (h + 1) % 24;
             }
 
-            // Set the new alarm time
-            rtc.setAlarm1(h, m, s);
+        // 2. Update Hardware
+        rtc.setAlarm1(h, m, s);
+        rtc.clearAlarm1();
+        
+        myLED.turnOff();
+        cout << "Snoozed! New alarm set for: " << h << ":" << m << ":" << s << endl;
 
-            // Clear the hardware flag and reset LED states
-            rtc.clearAlarm1();
-            myLED.turnOff();
-            myLED.turnOn();
-
-            cout << "Snoozed! New alarm set for: " << h << ":" << m << ":" << s << endl;
-
-            // Debounce delay to prevent multiple triggers from one press
-            usleep(250000); 
-        }
-      }
-   }
+        // 3. Wait for user to let go of the button
+        while (snoozeButton.isPressed()) { 
+            usleep(10000); 
+        } 
+    }
+    usleep(100000); // Main loop heartbeat
+}
 
     cout << "DS3231 RTC Code for Assignment 1 EEN1071" << endl;
     return 0;
