@@ -36,70 +36,79 @@ int main() {
    while(true) {
    	if (rtc.alarm1Triggered()) {
         	cout << "ALARM TRIGGERED!" << endl;
+		bool alarmActive = true;
 
-        	while (!snoozeButton.isPressed()) {
-            	   myLED.flashOn();
-            	   usleep(100000);
-        	}
+		while (alarmActive) {
+		   myLED.flashOn();
 
-        	cout << "Snooze button detected!" << endl;
-        
-        	// 1. Calculate new time 
-        	int h = rtc.getHours();
-		int m = rtc.getMinutes();
-		int s = rtc.getSeconds();
+		   if (statusButton.isPressed()){
+		      cout << "Alarm Off. End Program" << endl;
+		      rtc.clearAlarm1();
+		      alarmActive = false;
+	
+		      while(statusButton.isPressed()) {
+		         usleep(10000);
+		      }
+                   }
+		   else if (snoozeButton.isPressed()) {
+		         cout << "Snooze button detected!" << endl;
+                
+                	 int h = rtc.getHours();
+                	 int m = rtc.getMinutes();
+                	 int s = rtc.getSeconds();
 
-		s += 10;
-            	if (s >= 60) {
-                   s -= 60;
-                   m += 1;
-            	}
-            	if (m >= 60) {
-                   m = 0;
-                   h = (h + 1) % 24;
-            	}
+                	 s += 10;
+                	 if (s >= 60) { 
+			    s -= 60; m += 1; 
+			 }
+                	 if (m >= 60) { 
+			    m = 0; h = (h + 1) % 24; 
+			 }
 
-        	// 2. Update Hardware
-        	rtc.setAlarm1(h, m, s);
-        	rtc.clearAlarm1();
-        
-        	myLED.turnOff();
-        	cout << "Snoozed! New alarm set for: " << h << ":" << m << ":" << s << endl;
-        	myLED.turnOn();
-        	// 3. Wait for user to let go of the button
-        	while (snoozeButton.isPressed()) { 
-            	   usleep(10000); 
-        	} 
-    	}
+                	 rtc.setAlarm1(h, m, s);
+                	 rtc.clearAlarm1();
 
-    if (statusButton.isPressed()) {
-    	cout << "--- Status Check ---" << endl;
+                	 cout << "Snoozed! New alarm set for: " << h << ":" << m << ":" << s << endl;
+                	 alarmActive = false; // Break the flashing loop
+			 myLED.turnOn();
+
+                	 while(snoozeButton.isPressed()) { 
+			    usleep(10000); 
+			 }
+		      }
+		   }
+		}
+
+	
+
+   	if (statusButton.isPressed()) {
+    	   cout << "--- Status Check ---" << endl;
     
-    	// Get time from RTC
-    	int h = rtc.getHours();
-    	int m = rtc.getMinutes();
-    	int s = rtc.getSeconds();
+    	   // Get time from RTC
+    	   int h = rtc.getHours();
+    	   int m = rtc.getMinutes();
+    	   int s = rtc.getSeconds();
     
-    	cout << "Current RTC Time: " << h << ":" << m << ":" << s << endl;
+    	   cout << "Current RTC Time: " << h << ":" << m << ":" << s << endl;
     
-    	// Visual feedback: Flash LED twice
-    	statusLED.turnOff();
-    	for(int i=0; i<2; i++) {
-           statusLED.turnOn();
-           usleep(100000);
-           statusLED.turnOff();
-           usleep(100000);
-    	}
-    	statusLED.turnOn();
+    	   // Visual feedback: Flash LED twice
+    	   statusLED.turnOff();
+    	   for(int i=0; i<2; i++) {
+              statusLED.turnOn();
+              usleep(100000);
+              statusLED.turnOff();
+              usleep(100000);
+    	   }
+    	   statusLED.turnOn();
 
-    	// Waiting for release
-    	while(statusButton.isPressed()) {
-		usleep(10000);
-	}
+    	   // Waiting for release
+    	   while(statusButton.isPressed()) {
+	      usleep(10000);
+	   }
 
-   }
+  	}
 
-   usleep(100000);
+        usleep(100000);
 
    }
 
