@@ -35,14 +35,14 @@ int main() {
 
    while(true) {
    	if (rtc.alarm1Triggered()) {
-        	cout << "ALARM TRIGGERED!" << endl;
+        	cout << "=== ALARM TRIGGERED! ===" << endl;
 		bool alarmActive = true;
 
 		while (alarmActive) {
 		   myLED.flashOn();
 
 		   if (statusButton.isPressed()){
-		      cout << "Alarm Off. End Program" << endl;
+		      cout << "Alarm Off. Restart to sent new alarm." << endl;
 		      rtc.clearAlarm1();
 		      alarmActive = false;
 	
@@ -88,9 +88,13 @@ int main() {
     	   int h = rtc.getHours();
     	   int m = rtc.getMinutes();
     	   int s = rtc.getSeconds();
+	   int t = rtc.getTemperature();
+	   
     
     	   cout << "Current RTC Time: " << h << ":" << m << ":" << s << endl;
-    
+	   cout << "Current Temperature: " << t << " Degrees Celcius" << endl;
+           rtc.getToday();
+
     	   // Visual feedback: Flash LED twice
     	   statusLED.turnOff();
     	   for(int i=0; i<2; i++) {
